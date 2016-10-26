@@ -1,0 +1,199 @@
+<div class="body row" *ngIf="character">
+    <div class="clearfix bg-container" [style.background]="raceBackground">
+        <div class="sidebar">
+            <h2 class="text-white">{{ character.name }}</h2>
+            <p class="text-white">{{ character.guild.name ? character.guild.name : 'No Guild Available' }} {{ character.guild.realm != null ? '('+character.guild.realm+')' : '' }}</p>
+            <p class="text-white">Level {{ character.level }} {{ race.name }} {{ class.name }}</p>
+                <div class="text-white">
+                    <h3>General</h3>
+                    <ul class="no-bullets">
+                        <li>Health: {{ character.stats.health }}</li>
+                        <li>{{ character.stats.powerType }}: {{ character.stats.power }}</li>
+                        <li>Item Level: {{ character.items.averageItemLevelEquipped }}</li>
+                    </ul>
+                </div>
+                <div class="text-white">
+                    <h3>Attributes</h3>
+                    <ul class="no-bullets">
+                        <li>Strength: {{ character.stats.str }}</li>
+                        <li>Agility: {{ character.stats.agi }}</li>
+                        <li>Intellect: {{ character.stats.int }}</li>
+                        <li>Stamina: {{ character.stats.sta }}</li>
+                    </ul>
+                </div>
+                <div class="text-white">
+                    <h3>Attack</h3>
+                    <ul class="no-bullets">
+                        <li>Damage: {{ character.stats.mainHandDmgMin }} - {{ character.stats.mainHandDmgMax }}</li>
+                        <li>Attack Power: {{ character.stats.attackPower | number: fractionSize }}</li>
+                        <li>Attack Speed: {{ character.stats.mainHandSpeed | number: fractionSize }}</li>
+                    </ul>
+                </div>
+                <div class="text-white">
+                    <h3>Defence</h3>
+                    <ul class="no-bullets">
+                        <li>Armor: {{ character.stats.armor | number: fractionSize }} </li>
+                        <li>Dodge: {{ character.stats.dodge | number: fractionSize }}</li>
+                        <li>Parry: {{ character.stats.parry | number: fractionSize }}</li>
+                        <li>Block: {{ character.stats.block | number: fractionSize }}</li>
+                    </ul>
+                </div>
+        </div>
+        
+        <div class="content clearfix">
+            <div class="top-bar"></div>
+            <div class="main-image" [style.background]="characterBackground">
+                <div id="weapon-container">
+                    <div class="item-container" id="mainHand">  
+                        <div class="item-container" weapon-popover [item]="character.items.mainHand" place="right" *ngIf="character.items.mainHand">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.mainHand.icon+'.jpg'" [class]="qualityClass(character.items.mainHand.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-mainHand" empty-popover name="Main Hand" place="right" *ngIf="!character.items.mainHand"></div>
+                    </div>
+                    <div class="item-container" id="offHand">
+                        <div class="item-container" weapon-popover [item]="character.items.offHand" place="right" id="offHand" *ngIf="character.items.offHand">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.offHand.icon+'.jpg'" [class]="qualityClass(character.items.offHand.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-offHand" empty-popover name="Off Hand" place="right" *ngIf="!character.items.offHand"></div>
+                    </div>
+                </div>
+                <div class="armor-left">
+                    <div class="item-container" id="head" item-popover [item]="character.items.head" place="right" *ngIf="character.items.head">
+                        <div class="item-container" *ngIf="character.items.head">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.head.icon+'.jpg'" [class]="qualityClass(character.items.head.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-head" empty-popover name="Head" place="right" *ngIf="!character.items.head"></div>
+                    </div>
+                    <div class="item-container" id="neck">
+                        <div class="item-container"  item-popover [item]="character.items.neck" place="right" *ngIf="character.items.neck">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.neck.icon+'.jpg'" [class]="qualityClass(character.items.neck.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-neck" empty-popover name="Neck" place="right" *ngIf="!character.items.neck"></div>
+                    </div>
+                    <div class="item-container" id="shoulder">
+                        <div class="item-container" item-popover [item]="character.items.shoulder" place="right" *ngIf="character.items.shoulder">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.shoulder.icon+'.jpg'" [class]="qualityClass(character.items.shoulder.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-shoulder" empty-popover name="Shoulder" place="right" *ngIf="!character.items.shoulder"></div>
+                    </div>
+                    <div class="item-container" id="back">
+                        <div class="item-container" *ngIf="character.items.back" item-popover [item]="character.items.back" place="right">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.back.icon+'.jpg'" [class]="qualityClass(character.items.back.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-chest" empty-popover name="Back" place="right" *ngIf="!character.items.back"></div>
+                    </div>
+                    <div class="item-container" id="chest">
+                        <div class="item-container" *ngIf="character.items.chest" item-popover [item]="character.items.chest" place="right">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.chest.icon+'.jpg'" [class]="qualityClass(character.items.chest.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-chest" empty-popover name="Chest" place="right" *ngIf="!character.items.chest"></div>
+                    </div>
+                    <div class="item-container" id="shirt">
+                        <div class="item-container" *ngIf="character.items.shirt" item-popover [item]="character.items.shirt" place="right">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.shirt.icon+'.jpg'" [class]="qualityClass(character.items.shirt.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-shirt" empty-popover name="Shirt" place="right" *ngIf="!character.items.shirt"></div>
+                    </div>
+                    <div class="item-container" id="tabard">
+                        <div class="item-container" *ngIf="character.items.tabard" item-popover [item]="character.items.tabard" place="right">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.tabard.icon+'.jpg'" [class]="qualityClass(character.items.tabard.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-tabard" empty-popover name="Tabard" place="right" *ngIf="!character.items.tabard"></div>
+                    </div>
+                    <div class="item-container" id="wrist">
+                        <div class="item-container" *ngIf="character.items.wrist" item-popover [item]="character.items.wrist" place="right">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.wrist.icon+'.jpg'" [class]="qualityClass(character.items.wrist.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-wrist" empty-popover name="Wrist" place="right" *ngIf="!character.items.wrist"></div>
+                    </div>
+                </div>
+                <div class="armor-right">
+                    <div class="item-container" id="hands">
+                        <div class="item-container" *ngIf="character.items.hands" item-popover [item]="character.items.hands" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.hands.icon+'.jpg'" [class]="qualityClass(character.items.hands.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-hands" empty-popover name="Hands" place="left" *ngIf="!character.items.hands"></div>
+                    </div>
+                    <div class="item-container" id="waist">
+                        <div class="item-container" *ngIf="character.items.waist" item-popover [item]="character.items.waist" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.waist.icon+'.jpg'" [class]="qualityClass(character.items.waist.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-waist" empty-popover name="Waist" place="left" *ngIf="!character.items.waist"></div>
+                    </div>
+                    <div class="item-container" id="legs">
+                        <div class="item-container" *ngIf="character.items.legs" item-popover [item]="character.items.legs" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.legs.icon+'.jpg'" [class]="qualityClass(character.items.legs.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-legs" empty-popover name="Legs" place="left" *ngIf="!character.items.legs"></div>
+                    </div>
+                    <div class="item-container" id="feet">
+                        <div class="item-container" *ngIf="character.items.feet" item-popover [item]="character.items.feet" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.feet.icon+'.jpg'" [class]="qualityClass(character.items.feet.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-feet" empty-popover name="Feet" place="left" *ngIf="!character.items.feet"></div>
+                    </div>
+                    <div class="item-container" id="finger1">
+                        <div class="item-container" *ngIf="character.items.finger1" item-popover [item]="character.items.finger1" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.finger1.icon+'.jpg'" [class]="qualityClass(character.items.finger1.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-finger" empty-popover name="Finger" place="left" *ngIf="!character.items.finger1"></div>
+                    </div>
+                    <div class="item-container" id="finger2">
+                        <div class="item-container" *ngIf="character.items.finger2" item-popover [item]="character.items.finger2" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.finger2.icon+'.jpg'" [class]="qualityClass(character.items.finger2.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-finger" empty-popover name="Finger" place="left" *ngIf="!character.items.finger2"></div>
+                    </div>
+                    <div class="item-container" id="trinket1">
+                        <div class="item-container" *ngIf="character.items.trinket1" item-popover [item]="character.items.trinket1" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.trinket1.icon+'.jpg'" [class]="qualityClass(character.items.trinket1.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-trinket" empty-popover name="Trinket" place="left" *ngIf="!character.items.trinket1"></div>
+                    </div>
+                    <div class="item-container" id="trinket2">
+                        <div class="item-container" *ngIf="character.items.trinket2" item-popover [item]="character.items.trinket2" place="left">
+                            <img [src]="'http://media.blizzard.com/wow/icons/56/'+character.items.trinket2.icon+'.jpg'" [class]="qualityClass(character.items.trinket2.quality)" class="item"/>
+                        </div>
+                        <div class="empty empty-trinket" empty-popover name="Trinket" place="left" *ngIf="!character.items.trinket2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-container clearfix black-background text-white">
+        <div class="col-sm-8">
+            <div class="col-sm-12">
+                <h3>Enhancements</h3>
+            </div>
+            <div class="col-sm-4">
+                <ul>
+                    <li>Critical Strike: {{ character.stats.crit | number: fractionSize }}</li>
+                    <li>Haste: {{ character.stats.haste | number: fractionSize }}</li>
+                    <li>Spirit: {{ character.stats.spr | number: fractionSize }}</li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <ul>
+                    <li>Bonus Armor: {{ character.stats.bonusArmor | number: fractionSize}}</li>
+                    <li>Mulitstrike: {{ character.stats.multistrike | number: fractionSize}}</li>
+                    <li>Leech: {{ character.stats.leech | number: fractionSize }}</li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <ul>
+                    <li>Versatility: {{ character.stats.versatilityDamageDoneBonus | number: fractionSize }}</li>
+                    <li>Avoidance: {{ character.stats.avoidanceRatingBonus | number: fractionSize }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div>
+                <h3>Spell</h3>
+                <ul>
+                    <li>Spell Power: {{ character.stats.spellPower }}</li>
+                    <li>Mana Regen: {{ character.stats.mana5 }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,219 @@
+
+.item {
+    width:50px;
+    height:50px;
+}
+
+.item-container {
+    width:50px;
+    padding-bottom:5px;
+}
+.uncommon {
+    border:1px solid green;
+}
+
+.common {
+    border:1px solid white;
+}
+
+.rare {
+    border: 1px solid blue;
+}
+
+.legendary {
+    border:1px solid purple;
+}
+
+.heirloom {
+    border:1px solid gold;
+}
+
+.common, .uncommon, .rare, .legendary, .heirloom {
+    border-radius: 5px;
+    border-width: 1.9px;
+}
+
+.clearfix {
+    overflow:auto;
+}
+
+.main-image {
+    /*max-width:740px;*/
+    width:740px;
+    height:550px;
+    float:left;
+    clear:none;
+}
+
+.hidden {
+    display:none;
+}
+
+.row {
+    margin-left:0;
+    margin-right:0;
+    padding-left:15px;
+    padding-right:15px;
+}
+
+.footer {
+    bottom: 0;
+    /*width: 100%;
+    height: 60px;*/
+    background-color: #f5f5f5;
+}
+
+.top-bar {
+    height:114.5px;
+}
+
+.sidebar {
+    float:left;
+    clear:none;
+    padding-left:15px;
+    width:182px;
+}
+/**********************************************************
+                    Empty Classes
+**********************************************************/
+.empty {
+    background-image:url("../img/item-empty-bg.png");
+    background-repeat:no-repeat;
+    width:49px;
+    height:49px;
+    border:1.5px solid black;
+    border-radius:5px;
+}
+
+.empty-back {
+    background-position: 0 -141px;
+}
+
+.empty-chest {
+    background-position: 0 -141px;
+}
+
+.empty-feet {
+    background-position: 0 -470px;
+}
+
+.empty-finger {
+    background-position: 0 -517px;
+} 
+
+.empty-hands {
+    background-position: 0 -329px;
+}
+
+.empty-head {
+
+}
+
+.empty-legs {
+    background-position: 0 -423px;
+}
+
+.empty-mainHand {
+    background-position: 0 -611px;
+}
+
+.empty-neck {
+    background-position: 0 -49px;
+}
+
+.empty-offHand {
+    background-position: 0 -658.5px;
+}
+
+.empty-shirt {
+    background-position: 0 -188px;
+}
+
+.empty-shoulder {
+    background-position: 0 -94px;
+}
+
+.empty-tabard {
+    background-position: 0 -235px;
+}
+
+.empty-trinket {
+    background-position: 0 -564px;
+}
+
+.empty-waist {
+    background-position: 0 -376px;
+}
+
+.empty-wrist {
+    background-position: 0 -283px;
+}
+
+.text-white {
+    color:white;
+}
+
+#mainHand {
+    float:left;
+    clear:none;
+}
+
+#offHand {
+    float:right;
+    clear:none;
+}
+
+#weapon-container {
+    float:left;
+    clear:none;
+    overflow:auto;
+    width:100%;
+    padding-left:40%;
+    padding-right:40%;
+}
+
+.armor-left {
+    float:left;
+    clear:none;
+    padding-left:7%;
+    width:50%;
+    overflow:auto;
+}
+
+.armor-right {
+    float:right;
+    clear:none;
+    width:50%;
+    padding-left:36%;
+    overflow:auto;
+}
+
+.bg-container {
+    width:992px;
+    margin:auto;
+}
+
+.body {
+    margin-bottom:34px;
+}
+
+.no-bullets {
+    list-style:none;
+    padding-left:20px;
+}
+
+.black-background {
+    background-color:black;
+}
+
+.theme-nav {
+    background-color:#7D6FB2;
+    color:#FFE500;
+}
+
+.theme .navbar-header a {
+    color:#FFE500;
+}
+/*.popover-content {
+    list-style:none;
+}*/
