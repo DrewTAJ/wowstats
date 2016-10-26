@@ -24,15 +24,21 @@ export class ItemPopoverDirective {
         return contentString;
     }
 
-    ngOnInit(): void {
+    ngOnChanges(changeRecord): void {
         var options = {
             //animation: true,
-            content: this.staticService.getContent(this.item),
+            content: this.staticService.getContent(changeRecord.item.currentValue),
             html: true,
             placement: this.place,
-            title: this.item.name,
+            title: changeRecord.item.currentValue.name,
             trigger: 'hover'
         };
-        $(this.el.nativeElement).popover(options);
+        var pop = $(this.el.nativeElement).data('bs.popover');
+        if(pop) {
+            pop.options.content = this.staticService.getContent(changeRecord.item.currentValue);
+            pop.options.title = changeRecord.item.currentValue.name;
+        } else {
+            $(this.el.nativeElement).popover(options);
+        }
     } 
 }

@@ -6,7 +6,6 @@ export class StaticService {
     getContent(item:any) :string {
         var contentString = "<ul>";
         contentString += "<p>Item Level "+item.itemLevel+"</p>";
-        console.log(item);
         for(var i = 0; i < item.stats.length; i++) {
             contentString += "<li>"+this.getStat(item.stats[i].stat)+" "+item.stats[i].amount+"</li>";
         }

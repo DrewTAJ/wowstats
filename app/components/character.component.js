@@ -20,6 +20,7 @@ let CharacterComponent = class CharacterComponent {
     }
     ngOnInit() {
         this.character = this.characterService.getCharacter();
+        console.log(this.character);
         if (!this.character) {
             this._router.stateService.go('app.home');
         }
@@ -27,7 +28,25 @@ let CharacterComponent = class CharacterComponent {
             this.race = this.getRace(this.character.race);
             this.class = this.getClass(this.character.class);
             this.raceBackground = this.sanitizer.bypassSecurityTrustStyle('url(http://us.battle.net/wow/static/images/character/summary/backgrounds/race/' + this.character.race + '.jpg) left top no-repeat');
-            //       console.log(this.character);
+            var splitter = this.character.thumbnail.split("/");
+            var splitter2 = splitter[2].split("-");
+            this.characterId = splitter[0] + "/" + splitter[1] + "/" + splitter2[0];
+            this.characterBackground = this.sanitizer.bypassSecurityTrustStyle('url(http://render-api-us.worldofwarcraft.com/static-render/us/' + this.characterId + '-profilemain.jpg?alt=/wow/static/images/2d/profilemain/race/' + this.character.race + '-' + this.character.gender + '.jpg)');
+        }
+        // this.characterService.reloader.subscribe((character: any) => {
+        //     this.character = this.characterService.getCharacter();
+        //     this.reload();
+        // });
+    }
+    reload() {
+        console.log("in reload");
+        if (!this.character) {
+            this._router.stateService.go('app.home');
+        }
+        else {
+            this.race = this.getRace(this.character.race);
+            this.class = this.getClass(this.character.class);
+            this.raceBackground = this.sanitizer.bypassSecurityTrustStyle('url(http://us.battle.net/wow/static/images/character/summary/backgrounds/race/' + this.character.race + '.jpg) left top no-repeat');
             var splitter = this.character.thumbnail.split("/");
             var splitter2 = splitter[2].split("-");
             this.characterId = splitter[0] + "/" + splitter[1] + "/" + splitter2[0];
@@ -248,6 +267,10 @@ let CharacterComponent = class CharacterComponent {
         }
     }
 };
+__decorate([
+    core_1.Input(), 
+    __metadata('design:type', Object)
+], CharacterComponent.prototype, "reloader", void 0);
 CharacterComponent = __decorate([
     core_1.Component({
         selector: 'ui-view',

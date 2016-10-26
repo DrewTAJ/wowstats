@@ -13,18 +13,7 @@ export class WeaponPopoverDirective {
 
     constructor(private element: ElementRef, private renderer: Renderer, private staticService: StaticService) {}
 
-    // getContent(item:any) :string {
-    //     var contentString = "<ul class='no-bullets'>";
-    //     contentString += "<p>Item Level "+item.itemLevel+"</p>";
-    //     console.log(item);
-    //     for(var i = 0; i < item.stats.length; i++) {
-    //         contentString += "<li>"+this.staticService.getStat(item.stats[i].stat)+" "+item.stats[i].amount+"</li>";
-    //     }
-    //     contentString += "</ul>";
-    //     return contentString;
-    // }
-
-    ngOnInit(): void {
+    ngOnChanges(changeRecord): void {
         var options = {
             //animation: true,
             content: this.staticService.getContent(this.item),
@@ -33,7 +22,12 @@ export class WeaponPopoverDirective {
             title: this.item.name,
             trigger: 'hover'
         };
-        $(this.element.nativeElement).popover(options);
-      //  console.log(this.item);
+        var pop = $(this.element.nativeElement).data('bs.popover');
+        if(pop) {
+            pop.options.content = this.staticService.getContent(changeRecord.item.currentValue);
+            pop.options.title = changeRecord.item.currentValue.name;
+        } else {
+            $(this.element.nativeElement).popover(options);
+        }
     }
 }

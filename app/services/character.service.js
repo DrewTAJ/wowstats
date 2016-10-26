@@ -14,19 +14,25 @@ require('rxjs/add/operator/toPromise');
 let CharacterService = class CharacterService {
     constructor(http) {
         this.http = http;
+        this.reloader = new core_1.EventEmitter();
     }
     getCharacter() {
-        //      console.log(this.character);
+        console.log(this.character);
         return this.character;
     }
     setCharacter(realm, character) {
         var url = 'https://us.api.battle.net/wow/character/' + realm + '/' + character + '?fields=items+stats+guild&locale=en_US&apikey=xar58v846kpe4mv3ycjtvjqnp26ncw8v';
         return this.http.get(url)
             .toPromise()
-            .then(response => this.character = JSON.parse(response._body))
+            .then(response => {
+            this.character = JSON.parse(response._body);
+            if (!('guild' in this.character)) {
+                this.character.guild = null;
+            }
+            console.log(this.character);
+            this.reloader.emit(this.character);
+        })
             .catch(this.handleError);
-    }
-    getItem(realm, character) {
     }
     handleError(error) {
         console.error('An error occurred', error); // for demo purposes only

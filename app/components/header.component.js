@@ -26,43 +26,47 @@ let HeaderComponent = class HeaderComponent {
         this.submitted = false;
         this.realm = "";
         this.character = "";
+        this.reloadSignal = new core_1.EventEmitter();
         this.characterUrl = 'https://us.api.battle.net/wow/character/medivh/Voxe?locale=en_US&apikey=xar58v846kpe4mv3ycjtvjqnp26ncw8v';
         this.realmsUrl = 'https://us.api.battle.net/wow/realm/status?locale=en_US&apikey=xar58v846kpe4mv3ycjtvjqnp26ncw8v';
         this.realms = [];
     }
     searchCharacter(event) {
         event.preventDefault();
-        console.log(this.model.realm);
-        console.log(this.model.character);
         this.characterService.setCharacter(this.model.realm, this.model.character)
             .then(response => {
+            console.log("in searchCharacter");
+            this.reloadSignal.emit(response);
             this._router.stateService.go('app.character');
         }).catch(response => {
             console.log(response);
-            this.errorService.setError(response.statusText);
+            this.errorService.setError(JSON.parse(response._body));
             this._router.stateService.go('app.error');
         });
     }
     getRealms() {
         this.realmService.getRealms().then(response => {
             this.realms = response;
-            this.model.realm = response[154].slug;
+            //this.model.realm = response[154].slug;
+            //     this.model.realm = response[17].slug;
+            this.model.realm = response[157].slug;
         }).catch(this.handleError);
     }
     ngOnInit() {
         this.getRealms();
-        //this.model.realm = "medivh";
-        this.model.character = "Voxe";
+        this.model.character = "Drewcifer";
     }
     handleError(error) {
         console.error('An error occurred', error); // for demo purposes only
         this.http.get('realms.json')
             .toPromise()
             .then(response => console.log(response));
-        //        this._router.stateService.go('app.error');
-        //       return Promise.reject(JSON.parse(error._body) || error);
     }
 };
+__decorate([
+    core_1.Output(), 
+    __metadata('design:type', Object)
+], HeaderComponent.prototype, "reloadSignal", void 0);
 HeaderComponent = __decorate([
     core_1.Component({
         selector: 'app-header',

@@ -18,10 +18,14 @@ let ErrorComponent = class ErrorComponent {
     }
     ngOnInit() {
         this.error = this.errorService.getError();
+        console.log(this.error);
         if (!this.error) {
             this._router.stateService.go('app.home');
         }
-        console.log(this.error);
+        this.errorService.reloader.subscribe((error) => {
+            this.error = error;
+            //  this.reload();
+        });
     }
 };
 ErrorComponent = __decorate([

@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -7,11 +9,12 @@ import 'rxjs/add/operator/toPromise';
 export class CharacterService {
 
     character: any;
+    reloader:EventEmitter<any> = new EventEmitter<any>();
     
     constructor(private http: Http) {}
 
     getCharacter(): any {
-  //      console.log(this.character);
+        console.log(this.character);
         return this.character;
     }
 
@@ -21,12 +24,15 @@ export class CharacterService {
 
         return this.http.get(url)
             .toPromise()
-            .then(response => this.character = JSON.parse(response._body))
+            .then(response => {
+                this.character = JSON.parse(response._body);
+                if(!('guild' in this.character)) {
+                    this.character.guild = null;
+                }
+                console.log(this.character);
+                this.reloader.emit(this.character);
+            })
             .catch(this.handleError);
-    }
-
-    getItem(realm: string, character): any {
-
     }
 
     handleError(error: any): Promise<any> {

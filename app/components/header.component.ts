@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
     realm = "";
     character = "";
 
+    @Output() reloadSignal = new EventEmitter();
+
     private characterUrl = 'https://us.api.battle.net/wow/character/medivh/Voxe?locale=en_US&apikey=xar58v846kpe4mv3ycjtvjqnp26ncw8v';
     private realmsUrl = 'https://us.api.battle.net/wow/realm/status?locale=en_US&apikey=xar58v846kpe4mv3ycjtvjqnp26ncw8v';
     realms = [];
@@ -35,29 +37,32 @@ export class HeaderComponent implements OnInit {
 
     searchCharacter(event: Event): void {
         event.preventDefault();
-        console.log(this.model.realm);
-        console.log(this.model.character);
         this.characterService.setCharacter(this.model.realm, this.model.character)
             .then(response => {
+                console.log("in searchCharacter");
+                this.reloadSignal.emit(response);
                 this._router.stateService.go('app.character');   
             }).catch(response => {
                 console.log(response);
-                this.errorService.setError(response.statusText);
+                this.errorService.setError(JSON.parse(response._body));
                 this._router.stateService.go('app.error');
             });
     }
 
+    
+
     getRealms(): void {
         this.realmService.getRealms().then(response => {
             this.realms = response;
-            this.model.realm = response[154].slug;
+            //this.model.realm = response[154].slug;
+       //     this.model.realm = response[17].slug;
+            this.model.realm = response[157].slug;
         }).catch(this.handleError);
     }
 
     ngOnInit(): void {
         this.getRealms();
-        //this.model.realm = "medivh";
-        this.model.character = "Voxe";
+        this.model.character = "Drewcifer";
     }
 
     handleError(error: any): void {
@@ -65,7 +70,5 @@ export class HeaderComponent implements OnInit {
         this.http.get('realms.json')
             .toPromise()
             .then(response => console.log(response));
-//        this._router.stateService.go('app.error');
- //       return Promise.reject(JSON.parse(error._body) || error);
     }
 }

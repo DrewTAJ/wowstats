@@ -10,11 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const core_1 = require('@angular/core');
 let ErrorService = class ErrorService {
+    constructor() {
+        this.reloader = new core_1.EventEmitter();
+    }
     getError() {
         return this.error;
     }
     setError(error) {
         this.error = error;
+        this.reloader.emit(this.error);
     }
 };
 ErrorService = __decorate([

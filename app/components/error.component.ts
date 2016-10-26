@@ -16,10 +16,15 @@ export class ErrorComponent {
 
     ngOnInit(): void {
         this.error = this.errorService.getError();
+        console.log(this.error);
         if(!this.error) {
             this._router.stateService.go('app.home');
         }
-        console.log(this.error);        
+
+        this.errorService.reloader.subscribe((error: any) => {
+            this.error = error;
+          //  this.reload();
+        });
     }
 
 }
